@@ -20,20 +20,16 @@ if "messages" not in st.session_state:
 with st.sidebar:
     st.header("Configuration")
     uploaded_file = st.file_uploader("Choose a PDF file", type=["pdf"])
-    # customer_id = st.text_input("Vectara Customer ID", value=os.getenv("CUSTOMER_ID", ""))
-    # api_key = st.text_input("Vectara API Key", value=os.getenv("API_KEY", ""))
-    # corpus_id = st.text_input("Vectara Corpus ID", value=str(os.getenv("CORPUS_ID", "")))
-    # openai_api_key = st.text_input("OpenAI API Key", value=os.getenv("OPENAI_API_KEY", ""))
     submit_button = st.button("Submit")
 
 customer_id = os.getenv("CUSTOMER_ID", "")
 api_key = os.getenv("API_KEY", "")
-corpus_id = int(os.getenv("CORPUS_ID", ""))  # Assuming CORPUS_ID should be an integer
+corpus_id = int(os.getenv("CORPUS_ID", ""))  
 openai_api_key = os.getenv("OPENAI_API_KEY", "")
 # Constants
 CUSTOMER_ID = customer_id if customer_id else os.getenv("")
 API_KEY = api_key if api_key else os.getenv("")
-CORPUS_ID = int(corpus_id) if corpus_id else int(os.getenv("CORPUS_ID", ))  # Assuming CORPUS_ID should be an integer
+CORPUS_ID = int(corpus_id) if corpus_id else int(os.getenv("CORPUS_ID", )) 
 OPENAI_API_KEY = openai_api_key if openai_api_key else os.getenv("")
        
        
@@ -63,7 +59,6 @@ prompt = PromptTemplate.from_template(
     To assist him with his issue, you need to know the following information: {knowledge} 
     """
 )
-
 
 runnable = prompt | ChatOpenAI(streaming=True, callbacks=[StreamingStdOutCallbackHandler()], openai_api_key=OPENAI_API_KEY) | StrOutputParser()
 
